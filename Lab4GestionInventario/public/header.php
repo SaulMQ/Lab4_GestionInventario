@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="public/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
+
 <body>
 
     <div class="container">
@@ -15,8 +17,14 @@
                 <h2><i class="fa-solid fa-layer-group"></i> Tecno-Lenguajes</h2>
             </div>
             <ul class="nav-links">
-                <li><a href="?controlador=Proyecto" ><i class="fa-solid fa-house"></i> Mercancia</a></li>
-                <li><a href="?controlador=Proyecto&accion=mostrarregistro" ><i class="fa-solid fa-chart-line"></i> Registro de entrada</a></li>
+                <li><a href="?controlador=Proyecto"><i class="fa-solid fa-house"></i> Mercancia</a></li>
+                <li><a href="?controlador=Proyecto&accion=mostrarregistro"><i class="fa-solid fa-chart-line"></i> Registro de entrada</a></li>
+                <li class="nav-item">
+                    <a href="?controlador=Busqueda&accion=mostrar" class="nav-link">
+                        <i class="fa-solid fa-filter"></i>
+                        <span>Búsqueda por Filtros</span>
+                    </a>
+                </li>
             </ul>
         </nav>
 
