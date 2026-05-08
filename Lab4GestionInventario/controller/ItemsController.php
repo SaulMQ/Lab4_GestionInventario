@@ -12,7 +12,10 @@ class ItemsController {
      public function mostrar(){
          require 'model/ItemsModel.php';
          $items=new ItemsModel();
-         $data['listado']=$items->listar();
+
+         $listado = $items->listar();
+         $data['listado']=$listado;
+            $data['productos']=$listado; // Esto es lo que lee el modal
          
          $this->view->show("listar.php", $data);
      } // listar

@@ -27,9 +27,7 @@ class View {
          }
          
          if(is_array($vars)){
-             foreach ($vars as $key=>$value){
-                 $key=$value;
-             } //  foreach
+             extract($vars);
          } // if(is_array($vars))
          
          include $path;

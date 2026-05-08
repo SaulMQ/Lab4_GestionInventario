@@ -11,16 +11,17 @@ include_once 'public/header.php';
                 <div class="form-group">
                     <label for="nombre">Nombre del producto</label>
                     <!--<input type="text" id="nombre" name="nombre" placeholder="Ej: Monitores" required>-->
-                    <select id="nombre" name="nombre" required>
-                        <option value="">Seleccionar producto</option>
-                        <?php foreach ($vars['listado'] as $item) { ?>
-                            <option value="<?php echo $item[0]; ?>"
-                                    data-inventory="<?php echo isset($item[1]) ? htmlspecialchars($item[1]) : ''; ?>"
-                                    data-limit="<?php echo isset($item[2]) ? htmlspecialchars($item[2]) : ''; ?>">
-                                <?php echo $item[0]; ?>
-                            </option>
-                        <?php } ?>
-                    </select>
+                    <select name="id_producto" class="form-control" required>
+    <option value="">-- Seleccione un producto --</option>
+    
+    <?php foreach($productos as $prod): ?>
+    <option value="<?php echo $prod['id_producto']; ?>">
+    <?php echo $prod['nombre']; ?>
+    (Disponible: <?php echo $prod['inventario']; ?>)
+</option>
+<?php endforeach; ?>
+    
+</select>
                 </div>
             </div>
 
@@ -40,7 +41,9 @@ include_once 'public/header.php';
             <dialog id="successDialog">
                 <p id="dialogMessage"></p>
                 <menu>
-                    <button id="closeDialog" type="button">Cerrar</button>
+                  <button type="reset" class="btn btn-secondary" data-dismiss="modal">
+    Cancelar
+</button>
                 </menu>
             </dialog>
 

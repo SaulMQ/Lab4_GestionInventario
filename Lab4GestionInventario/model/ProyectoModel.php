@@ -15,7 +15,7 @@ class ProyectoModel
     {
         $consulta = $this->db->prepare('call sp_listar_mercancia()');
         $consulta->execute();
-        $resultado = $consulta->fetchAll();
+    $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
         $consulta->closeCursor();
         return $resultado;
     } // listar
