@@ -1,33 +1,86 @@
 <?php
-include_once 'public/header.php';
+    include_once 'public/header.php';
 ?>
 
-<table>
-    <tr>
-        <th>ID</th>
-        <th>Nombre</th>
-        <th>Cantidad</th>
-        <th>Límite</th>
-        <th>Faltante</th>
-    </tr>
-
-    <?php if (empty($vars['listadoRiesgo'])): ?>
-        <tr>
-            <td colspan="5">Todos los productos están dentro del límite de seguridad.</td>
-        </tr>
-    <?php else: ?>
-        <?php foreach ($vars['listadoRiesgo'] as $item): ?>
-            <tr>
-                <td data-label="ID"><?php echo $item[0]; ?></td>
-                <td data-label="Nombre"><?php echo $item[1]; ?></td>
-                <td data-label="Cantidad"><?php echo $item[2]; ?></td>
-                <td data-label="Límite"><?php echo $item[3]; ?></td>
-                <td data-label="Faltante"><?php echo $item[4]; ?></td>
-            </tr>
-        <?php endforeach; ?>
-    <?php endif; ?>
-</table>
+<section class="recent">
+    <div class="activity-card">
+        <h3>
+            Alertas de Inventario
+            (<?php echo $vars['totalAlertas']; ?>)
+        </h3>
+        <form method="GET" action="index.php">
+            <input type="hidden" name="controlador" value="Inventario">
+            <input type="hidden" name="accion" value="mostrarAlertas">
+            <select name="categoria">
+                <option value="">Todas las categorías</option>
+                <?php foreach($vars['categorias'] as $categoria){ ?>
+                    <option value="<?php echo $categoria; ?>"
+                        <?php
+                            if($vars['categoriaSeleccionada'] == $categoria){
+                                echo 'selected';
+                            }
+                        ?>
+                    >
+                        <?php echo $categoria; ?>
+                    </option>
+                <?php } ?>
+            </select>
+            <button type="submit">
+                Filtrar
+            </button>
+        </form>
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Producto</th>
+                    <th>Categoría</th>
+                    <th>Lote</th>
+                    <th>Stock</th>
+                    <th>Vencimiento</th>
+                    <th>Nivel</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                    $counter = 1;
+                    foreach($vars['alertas'] as $item){
+                ?>
+                    <tr>
+                        <td><?php echo $counter++; ?></td>
+                        <td><?php echo $item['nombre_producto']; ?></td>
+                        <td><?php echo $item['categoria_producto']; ?></td>
+                        <td><?php echo $item['codigo_lote']; ?></td>
+                        <td><?php echo $item['cantidad_disponible']; ?></td>
+                        <td><?php echo $item['fecha_vencimiento']; ?></td>
+                        <td>
+                            <?php
+                                if($item['nivel_alerta'] == 'Crítico'){
+                            ?>
+                                <span class="badge danger">
+                                    <?php echo $item['nivel_alerta']; ?>
+                                </span>
+                            <?php
+                                } else if($item['nivel_alerta'] == 'Advertencia'){
+                            ?>
+                                <span class="badge warning">
+                                    <?php echo $item['nivel_alerta']; ?>
+                                </span>
+                            <?php
+                                } else {
+                            ?>
+                                <span class="badge info">
+                                    <?php echo $item['nivel_alerta']; ?>
+                                </span>
+                            <?php } ?>
+                        </td>
+                    </tr>
+                <?php } ?>
+            </tbody>
+        </table>
+    </div>
+</section>
 
 <?php
-include_once 'public/footer.php';
+    include_once 'public/footer.php';
 ?>

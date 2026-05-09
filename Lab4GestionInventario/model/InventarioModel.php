@@ -23,23 +23,32 @@ class InventarioModel
     public function registrarProductos($nombre, $categoria, $ruta_imagen)
     {
         try {
-             $consulta = $this->db->prepare('call sp_insertar_producto(?, ?, ?)');
-             $consulta->execute([$nombre, $categoria, $ruta_imagen]);
-             $consulta->closeCursor();
-             return true;
+            $consulta = $this->db->prepare('call sp_insertar_producto(?, ?, ?)');
+            $consulta->execute([$nombre, $categoria, $ruta_imagen]);
+            $consulta->closeCursor();
+            return true;
         } catch (PDOException $e) {
             return false;
         }
     } // registrarProductos
 
-    public function productosEnRiesgo()
+    public function obtenerAlertas($categoria = null)
     {
-        $consulta = $this->db->prepare('call sp_productos_riesgo()');
-        $consulta->execute();
-        $resultado = $consulta->fetchAll();
+        $consulta = $this->db->prepare('CALL sp_obtener_alertas(?)');
+        $consulta->execute([$categoria]);
+        $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
         $consulta->closeCursor();
         return $resultado;
-    } // productosEnRiesgo
+    }
+
+    public function obtenerCategorias()
+    {
+        $consulta = $this->db->prepare('CALL sp_buscar_categorias()');
+        $consulta->execute();
+        $resultado = $consulta->fetchAll(PDO::FETCH_COLUMN);
+        $consulta->closeCursor();
+        return $resultado;
+    }
 
     public function agregarStock($producto_id, $cantidad)
     {

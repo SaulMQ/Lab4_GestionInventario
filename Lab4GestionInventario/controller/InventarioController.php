@@ -20,7 +20,11 @@ class InventarioController
     {
         require 'model/InventarioModel.php';
         $inventario = new InventarioModel();
-        $data['listadoRiesgo'] = $inventario->productosEnRiesgo();
+        $categoria = isset($_GET['categoria']) && $_GET['categoria'] !== '' ? $_GET['categoria'] : null;
+        $data['alertas'] = $inventario->obtenerAlertas($categoria);
+        $data['categorias'] = $inventario->obtenerCategorias();
+        $data['totalAlertas'] = count($data['alertas']);
+        $data['categoriaSeleccionada'] = $categoria;
         $this->view->show("productosRiesgo.php", $data);
     }
 

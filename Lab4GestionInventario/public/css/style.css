@@ -170,6 +170,8 @@ td, th {
 
 .success { background: #e2f9e1; color: #1db954; }
 .warning { background: #fff4e5; color: #ff9800; }
+.information { background: #e1f5fe; color: #0288d1; }
+.critical { background: #ffebee; color: #d32f2f; }
 
 
 
