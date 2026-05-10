@@ -1,5 +1,5 @@
 <?php
-    include_once 'public/header.php';
+include_once 'public/header.php';
 ?>
 
 <section class="recent">
@@ -13,20 +13,19 @@
             <input type="hidden" name="accion" value="mostrarAlertas">
             <select name="categoria">
                 <option value="">Todas las categorías</option>
-                <?php foreach($vars['categorias'] as $categoria){ ?>
+                <?php foreach ($vars['categorias'] as $categoria) { ?>
                     <option value="<?php echo $categoria; ?>"
                         <?php
-                            if($vars['categoriaSeleccionada'] == $categoria){
-                                echo 'selected';
-                            }
-                        ?>
-                    >
+                        if ($vars['categoriaSeleccionada'] == $categoria) {
+                            echo 'selected';
+                        }
+                        ?>>
                         <?php echo $categoria; ?>
                     </option>
                 <?php } ?>
             </select>
-            <button type="submit">
-                Filtrar
+            <button type="submit" class="btn-add">
+                <i class="fa-solid fa-magnifying-glass"></i> Filtrar
             </button>
         </form>
         <table>
@@ -43,8 +42,8 @@
             </thead>
             <tbody>
                 <?php
-                    $counter = 1;
-                    foreach($vars['alertas'] as $item){
+                $counter = 1;
+                foreach ($vars['alertas'] as $item) {
                 ?>
                     <tr>
                         <td><?php echo $counter++; ?></td>
@@ -55,19 +54,19 @@
                         <td><?php echo $item['fecha_vencimiento']; ?></td>
                         <td>
                             <?php
-                                if($item['nivel_alerta'] == 'Crítico'){
+                            if ($item['nivel_alerta'] == 'Crítico') {
                             ?>
                                 <span class="badge danger">
                                     <?php echo $item['nivel_alerta']; ?>
                                 </span>
                             <?php
-                                } else if($item['nivel_alerta'] == 'Advertencia'){
+                            } else if ($item['nivel_alerta'] == 'Advertencia') {
                             ?>
                                 <span class="badge warning">
                                     <?php echo $item['nivel_alerta']; ?>
                                 </span>
                             <?php
-                                } else {
+                            } else {
                             ?>
                                 <span class="badge info">
                                     <?php echo $item['nivel_alerta']; ?>
@@ -82,5 +81,5 @@
 </section>
 
 <?php
-    include_once 'public/footer.php';
+include_once 'public/footer.php';
 ?>
