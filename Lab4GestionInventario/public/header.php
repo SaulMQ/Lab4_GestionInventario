@@ -17,10 +17,7 @@
                 <h2><i class="fa-solid fa-layer-group"></i> Banco Productos Turrialba</h2>
             </div>
             <ul class="nav-links">
-                <li><a href="?controlador=Inventario"><i class="fa-solid fa-house"></i> Inventario</a></li>
-                <li><a href="?controlador=Inventario&accion=mostrarFormulario"><i class="fa-solid fa-plus"></i> Crear Producto</a></li>
-                <li><a href="?controlador=Inventario&accion=mostrarFormularioLote"><i class="fa-solid fa-plus"></i> Registrar Lote</a></li>
-                <li><a href="?controlador=Inventario&accion=mostrarAlertas"><i class="fa-solid fa-triangle-exclamation"></i> Alertas de Stock</a></li>
+                
             </ul>
         </nav>
 
