@@ -13,7 +13,7 @@
 
                 <input
                     type="text"
-                    name="id_beneficiario"
+                    name="ID_beneficiario"
                     class="form-control"
                     required
                     maxlength="9"
@@ -25,7 +25,7 @@
             <div class="form-group">
                 <label>Producto</label>
 
-                <select name="id_producto" class="form-control" required>
+                <select name="ID_producto" class="form-control" required>
 
                     <option value="">
                         -- Seleccione un producto --
@@ -33,9 +33,9 @@
 
                     <?php foreach($productos as $prod): ?>
 
-                        <option value="<?php echo $prod['id_producto']; ?>">
+                        <option value="<?php echo $prod['ID_producto']; ?>">
 
-                            <?php echo $prod['nombre']; ?>
+                            <?php echo $prod['nombre_producto']; ?>
 
                             (Disponible:
                             <?php echo $prod['inventario']; ?>)
@@ -62,7 +62,7 @@
             <br>
 
             <button type="submit" class="btn btn-primary">
-                Confirmar Retiro
+                <i class="fa-solid fa-check"></i>Confirmar Retiro
             </button>
 
         </form>

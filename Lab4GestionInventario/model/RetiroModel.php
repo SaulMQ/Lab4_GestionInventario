@@ -9,7 +9,7 @@ class RetiroModel {
         $this->db = SPDO::singleton();
     }
 
-    public function procesarSalidaSP($id_ben, $id_prod, $cant) {
+    public function procesarSalidaSP($id_prod, $cant, $id_ben) {
 
     try {
 
@@ -18,11 +18,12 @@ class RetiroModel {
         );
 
         $consulta->execute([
-            $id_ben,
             $id_prod,
-            $cant
+            $cant,
+            $id_ben
         ]);
 
+        $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
         $consulta->closeCursor();
 
         return true;
@@ -49,7 +50,17 @@ class RetiroModel {
     return $resultado['total'] > 0;
 }
 
-
-    
+    public function listarProductosConInventario() {
+        $consulta = $this->db->prepare(
+            "SELECT p.ID_producto, p.nombre_producto, IFNULL(SUM(i.cantidad_disponible), 0) AS inventario " .
+            "FROM tb_productos p " .
+            "LEFT JOIN tb_inventario i ON p.ID_producto = i.ID_producto " .
+            "GROUP BY p.ID_producto, p.nombre_producto"
+        );
+        $consulta->execute();
+        $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
+        $consulta->closeCursor();
+        return $resultado;
+    }
 
 }?>
