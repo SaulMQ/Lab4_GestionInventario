@@ -56,7 +56,7 @@ include_once 'public/header.php';
                             <?php
                             if ($item['nivel_alerta'] == 'Crítico') {
                             ?>
-                                <span class="badge danger">
+                                <span class="badge critical">
                                     <?php echo $item['nivel_alerta']; ?>
                                 </span>
                             <?php
