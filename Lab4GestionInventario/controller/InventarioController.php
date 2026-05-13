@@ -36,6 +36,17 @@ class InventarioController
         $this->view->show("registrarProductosView.php", $data);
     }
 
+    public function mostrarFormularioLote()
+    {
+        require 'model/InventarioModel.php';
+        $inventario = new InventarioModel();
+        $data['productos'] = $inventario->listarProductos();
+        $data['lotes']     = $inventario->listarLotes();
+        $this->view->show("ingresoView.php", $data);
+    }
+
+
+
     public function registrarProductos()
     {
         require 'model/InventarioModel.php';
@@ -76,6 +87,69 @@ class InventarioController
             header('Location: ?controlador=Inventario&accion=mostrarFormulario&status=invalido');
         }
 
+        exit;
+    }
+
+
+    public function registrarLote()
+    {
+        require 'model/InventarioModel.php';
+        $inventario = new InventarioModel();
+
+        $codigo_lote        = isset($_POST['codigo_lote'])       ? trim($_POST['codigo_lote'])       : '';
+        $id_lote_existente  = isset($_POST['id_lote_existente']) ? trim($_POST['id_lote_existente']) : '';
+        $ids_producto       = isset($_POST['id_producto'])       ? $_POST['id_producto']             : [];
+        $cantidades         = isset($_POST['cantidad'])          ? $_POST['cantidad']                : [];
+        $fechas_vencimiento = isset($_POST['fecha_vencimiento']) ? $_POST['fecha_vencimiento']       : [];
+
+        if (empty($ids_producto)) {
+            header('Location: ?controlador=Inventario&accion=mostrarFormularioLote&status=invalido');
+            exit;
+        }
+
+        $hoy = date('Y-m-d');
+        foreach ($ids_producto as $i => $id_prod) {
+            if (empty($id_prod) || empty($cantidades[$i]) || empty($fechas_vencimiento[$i])) {
+                header('Location: ?controlador=Inventario&accion=mostrarFormularioLote&status=invalido');
+                exit;
+            }
+            if ($fechas_vencimiento[$i] < $hoy) {
+                header('Location: ?controlador=Inventario&accion=mostrarFormularioLote&status=fecha_error');
+                exit;
+            }
+        }
+
+        // Usar lote existente o crear uno nuevo
+        if (!empty($id_lote_existente)) {
+            $id_lote = $id_lote_existente;
+        } else {
+            if (empty($codigo_lote)) {
+                $codigo_lote = 'LOT-' . date('YmdHis');
+            }
+            $id_lote = $inventario->crearLote($codigo_lote);
+
+            if (!$id_lote) {
+                header('Location: ?controlador=Inventario&accion=mostrarFormularioLote&status=error');
+                exit;
+            }
+        }
+
+        // Insertar cada producto
+        foreach ($ids_producto as $i => $id_prod) {
+            $resultado = $inventario->registrarInventario(
+                $id_prod,
+                $id_lote,
+                $cantidades[$i],
+                $fechas_vencimiento[$i]
+            );
+
+            if (!$resultado) {
+                header('Location: ?controlador=Inventario&accion=mostrarFormularioLote&status=error');
+                exit;
+            }
+        }
+
+        header('Location: ?controlador=Inventario&accion=mostrarFormularioLote&status=success');
         exit;
     }
 } // fin clase

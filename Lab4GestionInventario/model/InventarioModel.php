@@ -62,4 +62,45 @@ class InventarioModel
         }
     } // agregarStock
 
+    public function crearLote($codigo_lote)
+    {
+        try {
+            $consulta = $this->db->prepare(
+                'INSERT INTO tb_lotes (codigo_lote, fecha_ingreso) VALUES (?, CURDATE())'
+            );
+            $consulta->execute([$codigo_lote]);
+
+            return $this->db->lastInsertId();
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+    public function listarLotes()
+    {
+        $consulta = $this->db->prepare('SELECT ID_lote, codigo_lote FROM tb_lotes ORDER BY fecha_ingreso DESC');
+        $consulta->execute();
+        $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
+        $consulta->closeCursor();
+        return $resultado;
+    }
+
+    public function registrarInventario($id_producto, $id_lote, $cantidad, $fecha_vencimiento)
+    {
+        try {
+            $consulta = $this->db->prepare(
+                'CALL sp_insertar_inventario(?, ?, ?, ?)'
+            );
+            $consulta->execute([
+                $id_producto,
+                $id_lote,
+                $cantidad,
+                $fecha_vencimiento
+            ]);
+            $consulta->closeCursor();
+            return true;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
 } // fin clase
